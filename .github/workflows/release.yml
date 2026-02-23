@@ -100,3 +100,10 @@ jobs:
           gh release edit "${{ inputs.tag }}" \
             --draft=${{ inputs.draft }} \
             --prerelease=${{ inputs.prerelease }}
+
+  docker-release:
+    name: Build and Push Docker Image
+    needs: create-tag
+    uses: ./.github/workflows/docker-build.yml
+    with:
+      tag: ${{ inputs.tag }}
