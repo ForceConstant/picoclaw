@@ -10,7 +10,7 @@ on:
 
 env:
   GHCR_REGISTRY: ghcr.io
-  GHCR_IMAGE_NAME: ${{ toLower(github.repository_owner) }}/picoclaw
+  GHCR_IMAGE_NAME: ${{ github.repository_owner }}/picoclaw
   DOCKERHUB_REGISTRY: docker.io
   DOCKERHUB_IMAGE_NAME: ${{ vars.DOCKERHUB_REPOSITORY }}
 
@@ -55,8 +55,9 @@ jobs:
         shell: bash
         run: |
           tag="${{ inputs.tag }}"
-          echo "ghcr_tag=${{ env.GHCR_REGISTRY }}/${{ env.GHCR_IMAGE_NAME }}:${tag}" >> "$GITHUB_OUTPUT"
-          echo "ghcr_latest=${{ env.GHCR_REGISTRY }}/${{ env.GHCR_IMAGE_NAME }}:latest" >> "$GITHUB_OUTPUT"
+          owner_lower=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          echo "ghcr_tag=${{ env.GHCR_REGISTRY }}/${owner_lower}/picoclaw:${tag}" >> "$GITHUB_OUTPUT"
+          echo "ghcr_latest=${{ env.GHCR_REGISTRY }}/${owner_lower}/picoclaw:latest" >> "$GITHUB_OUTPUT"
           echo "dockerhub_tag=${{ env.DOCKERHUB_REGISTRY }}/${{ env.DOCKERHUB_IMAGE_NAME }}:${tag}" >> "$GITHUB_OUTPUT"
           echo "dockerhub_latest=${{ env.DOCKERHUB_REGISTRY }}/${{ env.DOCKERHUB_IMAGE_NAME }}:latest" >> "$GITHUB_OUTPUT"
 
